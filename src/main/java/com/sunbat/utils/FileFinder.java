@@ -1,5 +1,6 @@
 package com.sunbat.utils;
 
+import com.sunbat.IcePdf;
 import lombok.Data;
 
 import java.io.File;
@@ -142,7 +143,7 @@ public class FileFinder {
     /**
      * 测试
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws Exception {
         // 这样写的好处在于、足够灵活、可以添加任意监听器来检测扫描过程，可以动态添加过滤规则。
         List<File> list = FileFinder.getInstance("C:\\Users\\cpr066\\Desktop\\保单调研附件\\人保\\交强")
                 .registerFileFountListener(f -> System.out.println("[监听器]监听到新文件:"+f.getName()+",他的父级目录是:"+f.getParent()))
@@ -153,6 +154,8 @@ public class FileFinder {
         System.out.println("\n文件扫描完成,下面打印\n");
         for (File file : list) {
             System.out.println(file.getName()+" : "+ file.getPath());
+            String fileName = file.getName().replace(".pdf","");
+            IcePdf.pdf2Pic(file.getPath(),"D:\\temp\\pdf\\"+fileName);
         }
     }
 }
